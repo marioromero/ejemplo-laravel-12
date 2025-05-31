@@ -12,7 +12,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        // Obtener todas las categorías
+        $categories = Category::all();
+
+        // Retornar la vista con las categorías
+        return view('categories.index', compact('categories'));
+
     }
 
     /**
@@ -28,7 +33,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validar los datos del formulario
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        // Crear una nueva categoría
+        Category::create($request->all());
+
+        // Redirigir a la lista de categorías con un mensaje de éxito
+        return redirect()->route('categories.index')->with('success', 'Categoría creada exitosamente.');
     }
 
     /**
@@ -60,6 +74,15 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        //revisa que la categoría no tenga productos asociados
+        if ($category->products()->count() > 0) {
+            return redirect()->route('categories.index')->with('error', 'No se puede eliminar la categoría porque tiene productos asociados.');
+        }
+        // Eliminar la categoría
+        $category->delete();
+
+        // Redirigir a la lista de categorías con un mensaje de éxito
+        return redirect()->route('categories.index')->with('success', 'Categoría eliminada exitosamente.');
+
     }
 }
