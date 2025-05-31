@@ -9,8 +9,8 @@
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="mb-3">
-            <label for="price" class="form-label">Precio</label>
-            <input type="number" class="form-control" id="price" name="price" required>
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" class="form-control" id="price" name="precio" required>
         </div>
         <div class="mb-3">
             <label for="category_id" class="form-label

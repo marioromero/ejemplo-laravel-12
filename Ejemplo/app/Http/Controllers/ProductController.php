@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -15,8 +16,11 @@ class ProductController extends Controller
         // Obtener todos los productos
         $products = Product::all();
 
-        // Retornar la vista con los productos
-        return view('products.index', compact('products'));
+        //carga las categorías, para que en la vista de productos se pueda asociar un producto a una categoría
+         $categories = Category::all();
+
+        // Retornar la vista con los productos y categorías
+        return view('products', compact('products', 'categories'));
     }
 
     /**
@@ -36,7 +40,7 @@ class ProductController extends Controller
         // Validar los datos del formulario
         $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
+            'precio' => 'required|numeric',
             'category_id' => 'required|exists:categories,id', // Asegurarse de que la categoría existe
         ]);
 
@@ -44,7 +48,7 @@ class ProductController extends Controller
         Product::create($request->all());
 
         // Redirigir a la lista de productos con un mensaje de éxito
-        return redirect()->route('products.index')->with('success', 'Producto creado exitosamente.');
+        return redirect()->route('products')->with('success', 'Producto creado exitosamente.');
     }
 
     /**
@@ -80,6 +84,6 @@ class ProductController extends Controller
         $product->delete();
 
         // Redirigir a la lista de productos con un mensaje de éxito
-        return redirect()->route('products.index')->with('success', 'Producto eliminado exitosamente.');
+        return redirect()->route('products')->with('success', 'Producto eliminado exitosamente.');
     }
 }

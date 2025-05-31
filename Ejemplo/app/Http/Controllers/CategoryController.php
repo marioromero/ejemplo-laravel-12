@@ -14,9 +14,10 @@ class CategoryController extends Controller
     {
         // Obtener todas las categorías
         $categories = Category::all();
+        //dd($categories);
 
         // Retornar la vista con las categorías
-        return view('categories.index', compact('categories'));
+        return view('categories', compact('categories'));
 
     }
 
@@ -42,7 +43,7 @@ class CategoryController extends Controller
         Category::create($request->all());
 
         // Redirigir a la lista de categorías con un mensaje de éxito
-        return redirect()->route('categories.index')->with('success', 'Categoría creada exitosamente.');
+        return redirect()->route('categories')->with('success', 'Categoría creada exitosamente.');
     }
 
     /**
@@ -76,13 +77,13 @@ class CategoryController extends Controller
     {
         //revisa que la categoría no tenga productos asociados
         if ($category->products()->count() > 0) {
-            return redirect()->route('categories.index')->with('error', 'No se puede eliminar la categoría porque tiene productos asociados.');
+            return redirect()->route('categories')->with('error', 'No se puede eliminar la categoría porque tiene productos asociados.');
         }
         // Eliminar la categoría
         $category->delete();
 
         // Redirigir a la lista de categorías con un mensaje de éxito
-        return redirect()->route('categories.index')->with('success', 'Categoría eliminada exitosamente.');
+        return redirect()->route('categories')->with('success', 'Categoría eliminada exitosamente.');
 
     }
 }

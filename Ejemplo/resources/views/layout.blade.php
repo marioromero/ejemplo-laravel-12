@@ -8,15 +8,27 @@
 </head>
 <body>
 
-<!-- agrega divs que muestra eventuales mensajes de error o éxito enviados desde el controlador-->
+<!-- muestra mensaje de éxito si se completó la acción correctamente -->
 @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
 
+    <!-- muestra mensaje de error si no se pudo completar la acción -->
 @elseif(session('error'))
     <div class="alert alert-danger">
         {{ session('error') }}
+    </div>
+@endif
+
+<!-- muestra errores de validación si los hay -->
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
 @endif
 
@@ -31,10 +43,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('categories.index') }}">Categorías</a>
+                    <a class="nav-link active" aria-current="page" href="{{ route('categories') }}">Categorías</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('products.index') }}">Productos</a>
+                    <a class="nav-link" href="{{ route('products') }}">Productos</a>
                 </li>
             </ul>
         </div>
